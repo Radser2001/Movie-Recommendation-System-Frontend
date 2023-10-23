@@ -13,12 +13,12 @@ const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
   }
 
   return (
-    <div className="px-4 md:px-12 mt-4 space-y-8">
+    <div className="px-4 mt-12 md:px-12 space-y-8">
       <div>
         <p className="text-white text-md md:text-xl lg:text-3xl font-semibold mb-4">
           {title}
         </p>
-        <div className="mt-[50mm] grid grid-cols-4 gap-2">
+        <div className=" mt-24 grid grid-cols-4 gap-2">
           {data.map((movie) => (
             <MovieCard key={movie.id} data={movie} />
           ))}
