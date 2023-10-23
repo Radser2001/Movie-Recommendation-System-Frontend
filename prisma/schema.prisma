@@ -40,3 +40,30 @@ model VerficationToken {
 
   @@unique([identifier, token])
 }
+
+model Movie {
+  idAuto               String @id @default(auto()) @map("_id") @db.ObjectId
+  movie_id             Int
+  title                String
+  cast                 Json[]
+  crew                 Json[]
+  budget               Float
+  genres               Json[]
+  homepage             String
+  id                   Int
+  keywords             Json[]
+  original_language    String
+  original_title       String
+  overview             String
+  popularity           Float
+  production_companies Json[]
+  production_countries Json[]
+  release_date         String // Change this to String if release_date is in "12/10/2009" format
+  revenue              Float
+  runtime              Int
+  spoken_languages     Json[]
+  status               String // Change "Status" to "status" to match your data
+  tagline              String
+  vote_average         Float
+  vote_count           Int
+}
