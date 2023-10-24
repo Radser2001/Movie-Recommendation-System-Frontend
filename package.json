@@ -20,6 +20,7 @@
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "react-modal": "^3.16.1",
+    "react-router-dom": "^6.17.0",
     "swr": "^2.2.4",
     "zustand": "^4.4.4"
   },
