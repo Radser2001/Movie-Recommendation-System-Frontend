@@ -70,7 +70,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
           duration-500
           ${showBackground ? "bg-zinc-900 bg-opacity-90" : ""}`}
       >
-        <img className="h-4 lg:h-7" src="/images/logo.png" alt="Logo" />
+
+        <img src="/images/logo.png" alt="Logo" style={{ width: '200px', height: 'auto' }} />
+
         <div className="flex-row ml-8 gap-7 hidden lg:flex">
           <NavbarItem label="Home" />
           <NavbarItem label="Series" />

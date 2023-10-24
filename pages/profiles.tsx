@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import MovieCard from "@/components/MovieCard";
 
 const images = [
   "/images/default-blue.png",
@@ -48,6 +49,7 @@ const UserCard: React.FC<UserCardProps> = ({ name }) => {
       </div>
       <div className="mt-4 text-gray-400 text-2xl text-center group-hover:text-white">
         {name}
+        
       </div>
     </div>
   );
