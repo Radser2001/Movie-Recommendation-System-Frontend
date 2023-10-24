@@ -11,6 +11,7 @@ const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
   if (isEmpty(data)) {
     return null;
   }
+  console.log(data[0]);
 
   return (
     <div className="px-4 mt-12 md:px-12 space-y-8">
@@ -19,9 +20,8 @@ const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
           {title}
         </p>
         <div className=" mt-24 grid grid-cols-4 gap-2">
-          {data.map((movie) => (
-            <MovieCard key={movie.id} data={movie} />
-          ))}
+          {data.length > 0 &&
+            data?.map((movie) => <MovieCard key={movie.id} data={movie} />)}
         </div>
       </div>
     </div>
