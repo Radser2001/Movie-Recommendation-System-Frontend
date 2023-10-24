@@ -149,6 +149,27 @@ import Input from "@/components/Input";
 import Checkbox from "@/components/Checkbox";
 import GenreSelectionCard from "@/components/GenreSelectionCard"; // Import the genre selection card component
 
+import { getSession } from "next-auth/react";
+import { NextPageContext } from "next";
+
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
+
 const Auth = () => {
   const router = useRouter();
 
@@ -287,11 +308,12 @@ const Auth = () => {
           </div>
         </div>
         {showGenres && (
-          <GenreSelectionCard
-            favoriteGenres={favoriteGenres}
-            handleGenreChange={handleGenreChange}
-          />
-        )}
+        <GenreSelectionCard
+          favoriteGenres={favoriteGenres}
+          handleGenreChange={handleGenreChange}
+          onContinue={handleContinue} // Update the prop name here
+        />
+      )}
       </div>
     </div>
   );
