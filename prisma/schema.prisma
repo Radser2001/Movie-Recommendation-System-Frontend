@@ -76,7 +76,7 @@ model Rating{
 }
 
 model Genre {
-  idAuto                String @id @default(auto()) @map("_id") @db.ObjectId
-  user_id             String
-  genres                Genres[]
+  idAuto    String    @id @default(auto()) @map("_id") @db.ObjectId
+  user_id   String
+  genre     String[]
 }
