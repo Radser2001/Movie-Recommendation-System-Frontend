@@ -58,11 +58,11 @@ model Movie {
   popularity           Float
   production_companies Json[]
   production_countries Json[]
-  release_date         String // Change this to String if release_date is in "12/10/2009" format
+  release_date         String 
   revenue              Float
   runtime              Int
   spoken_languages     Json[]
-  status               String // Change "Status" to "status" to match your data
+  status               String 
   tagline              String
   vote_average         Float
   vote_count           Int
@@ -74,4 +74,5 @@ model Rating{
   movie_id             Int
   rating               Int               
 }
+
 
