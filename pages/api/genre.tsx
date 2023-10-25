@@ -14,8 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Save the genres to the database
     const createdGenres = await Promise.all(
-        genre.map(async (genreData) => {
-          const { user_id,genres } = genreData;
+        genre.map(async (genreData: { user_id: any; genre: any; }) => {
+          const { user_id,genre } = genreData;
           const createdGenre = await prismadb.genre.create({
             data: {
               user_id,

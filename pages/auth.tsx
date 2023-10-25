@@ -149,6 +149,7 @@ import axios from "axios";
 import Input from "@/components/Input";
 import Checkbox from "@/components/Checkbox";
 import GenreSelectionCard from "@/components/GenreSelectionCard"; // Import the genre selection card component
+import submitGenres from "@/hooks/useGenre"; 
 
 import { getSession } from "next-auth/react";
 import { NextPageContext } from "next";
@@ -216,7 +217,7 @@ const Auth = () => {
     }
   }, [email, password, router]);
 
-  const register = useCallback(async () => {
+  /*const register = useCallback(async () => {
     try {
       await axios.post("/api/register", {
         email,
@@ -228,7 +229,26 @@ const Auth = () => {
     } catch (error) {
       console.log(error);
     }
+  }, [email, username, password, toggleGenreSelection]);*/
+  
+  const register = useCallback(async () => {
+    try {
+      const response = await axios.post("/api/register", {
+        email,
+        username,
+        password,
+      });
+  
+      const { user_id } = response.data; // Retrieve the user_id from the response
+  
+      toggleGenreSelection();
+  
+      return user_id; // Return the user_id
+    } catch (error) {
+      console.log(error);
+    }
   }, [email, username, password, toggleGenreSelection]);
+  
 
   const handleSubmit = useCallback(async () => {
     if (showGenres) {
@@ -245,14 +265,32 @@ const Auth = () => {
     }
   }, [showGenres, favoriteGenres, variant, login, toggleGenreSelection, router]);
 
-  const handleContinue = async () => {
+  /*const handleContinue = async () => {
     try {
       await register();
     } catch (error) {
       console.log(error);
     }
-  };
+  };*/
 
+  const handleContinue = async () => {
+    try {
+      const user_id = await register(); // Obtain the user_id
+  
+      if (user_id) {
+        const genreData = {
+          user_id,
+          genres: favoriteGenres,
+        };
+  
+        await submitGenres(genreData);
+  
+        router.push("/profiles");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div className="bg-black w-full h-full lg:bg-opacity-50">
