@@ -67,3 +67,14 @@ model Movie {
   vote_average         Float
   vote_count           Int
 }
+<<<<<<< Updated upstream
+=======
+
+model Rating{
+  idAuto               String @id @default(auto()) @map("_id") @db.ObjectId
+  user_id             String
+  movie_id             Int
+  rating               Int               
+}
+
+>>>>>>> Stashed changes
