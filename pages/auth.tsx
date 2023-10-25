@@ -216,7 +216,7 @@ const Auth = () => {
     }
   }, [email, password, router]);
 
-  const register = useCallback(async () => {
+ /* const register = useCallback(async () => {
     try {
       await axios.post("/api/register", {
         email,
@@ -228,14 +228,39 @@ const Auth = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [email, username, password, toggleGenreSelection]);
+  }, [email, username, password, toggleGenreSelection]);*/
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", {
+        email,
+        username,
+        password,
+      });
+  
+      toggleGenreSelection();
+      login();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, username, password, toggleGenreSelection, login]);
 
   const handleSubmit = useCallback(async () => {
     if (showGenres) {
       // Perform genre selection logic here
       console.log("Selected Genres:", favoriteGenres);
-      // Redirect or perform any other actions after genre selection
-      router.push("/profiles");
+
+      try {
+        // Store user genre selection in the database
+        await axios.post("/api/genre", {
+          user_id: email, // Use a unique identifier for the user, such as email
+          genres: favoriteGenres,
+        });
+
+        // Redirect or perform any other actions after genre selection
+        router.push("/profiles");
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       if (variant === "login") {
         login();

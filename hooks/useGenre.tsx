@@ -2,12 +2,12 @@ import axios, { AxiosError } from 'axios';
 
 interface GenreData {
   user_id: string;
-  genres: string[];
+  genre: string[];
 }
 
 const submitGenres = async (genreData: GenreData) => {
   try {
-    const response = await axios.post('/api/genres', genreData);
+    const response = await axios.post('/api/genre', genreData);
     return response.data; // Optional: Return data from the response if needed
   } catch (error) {
     if (axios.isAxiosError(error)) {
