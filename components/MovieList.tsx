@@ -11,7 +11,7 @@ const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
   if (isEmpty(data)) {
     return null;
   }
-  console.log(data[0]);
+  console.log(data);
 
   return (
     <div className="px-4 mt-12 md:px-12 space-y-8">

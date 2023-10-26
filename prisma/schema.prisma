@@ -74,3 +74,9 @@ model Rating{
   movie_id             Int
   rating               Int               
 }
+
+model Genre {
+  idAuto    String    @id @default(auto()) @map("_id") @db.ObjectId
+  user_id   String
+  genre     String[]
+}
