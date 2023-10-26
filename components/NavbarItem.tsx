@@ -10,8 +10,8 @@ const NavbarItem: React.FC<NavbarItemProps> = ({ label, active }) => {
     <div
       className={
         active
-          ? "text-white cursor-default"
-          : "text-gray-200 hover:text-gray-300 cursor-pointer transition"
+          ? "text-white text-center cursor-default text-lg mr-2 "
+          : "text-gray-200 text-center text-lg mr-2  hover:text-gray-300 cursor-pointer transition"
       }
     >
       {label}

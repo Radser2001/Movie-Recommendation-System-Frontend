@@ -70,13 +70,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
           duration-500
           ${showBackground ? "bg-zinc-900 bg-opacity-90" : ""}`}
       >
+        <img
+          src="/images/logo.png"
+          alt="Logo"
+          style={{ width: "200px", height: "auto" }}
+        />
 
-        <img src="/images/logo.png" alt="Logo" style={{ width: '200px', height: 'auto' }} />
-
-        <div className="flex-row ml-8 gap-7 hidden lg:flex">
+        <div className="flex-row ml-8 gap-7 hidden 2xl:flex">
           <NavbarItem label="Home" />
-          <NavbarItem label="Series" />
-          <NavbarItem label="Films" />
           <NavbarItem label="New & Popular" />
           <NavbarItem label="My List" />
           <NavbarItem label="Browse by Languages" />
@@ -85,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
           <div className="relative">
             <button
               type="button"
-              className="absolute top-2 right-2"
+              className="absolute top-4 right-2"
               onClick={handleSearch}
             >
               <BsSearch className="text-gray-200" />
@@ -95,7 +96,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
               placeholder="Search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-80 h-8 px-2 py-1 rounded-md bg-gray-800 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className=" w-96  p-3 rounded-md bg-gray-800 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
@@ -105,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
             onClick={toggleAccountMenu}
             className="flex flex-row items-center gap-2 cursor-pointer relative"
           >
-            <div className="w-6 h-6 lg:w-10 rounded-md overflow-hidden">
+            <div className="w-10 h-10  rounded-md overflow-hidden">
               <img src="/images/default-blue.png" alt="Profile Picture" />
             </div>
             <BsChevronDown
@@ -120,7 +121,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
           onClick={toggleMobileMenu}
           className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative"
         >
-          <p className="text-white text-sm">Browse</p>
+          <p className="text-white text-lg">Browse</p>
           <BsChevronDown
             className={`text-white transition ${
               showMobileMenu ? "rotate-180" : "rotate-0"
