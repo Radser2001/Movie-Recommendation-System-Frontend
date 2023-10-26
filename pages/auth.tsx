@@ -140,6 +140,7 @@ const Auth = () => {
   );
 };
 export default Auth;*/
+"use client";
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -152,6 +153,7 @@ import GenreSelectionCard from "@/components/GenreSelectionCard"; // Import the 
 
 import { getSession } from "next-auth/react";
 import { NextPageContext } from "next";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 
 export async function getServerSideProps(context: NextPageContext) {
@@ -180,6 +182,8 @@ const Auth = () => {
   const [variant, setVariant] = useState("login");
   const [showGenres, setShowGenres] = useState(false);
   const [favoriteGenres, setFavoriteGenres] = useState<string[]>([]);
+  const { data: currentUser } = useCurrentUser();
+  const [updatedList,setUpdatedList] = useState<string[]>([]);
 
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) =>
@@ -189,6 +193,7 @@ const Auth = () => {
 
   const toggleGenreSelection = useCallback(() => {
     setShowGenres((prevValue) => !prevValue);
+    console.log(currentUser)
   }, []);
 
   const handleGenreChange = useCallback((genre: string) => {
@@ -238,13 +243,13 @@ const Auth = () => {
       });
   
       toggleGenreSelection();
-      login();
+      // login();
     } catch (error) {
       console.log(error);
     }
-  }, [email, username, password, toggleGenreSelection, login]);
+  }, [email, username, password, toggleGenreSelection]);
 
-  const handleSubmit = useCallback(async () => {
+  const handleContinue = useCallback(async () => {
     if (showGenres) {
       // Perform genre selection logic here
       console.log("Selected Genres:", favoriteGenres);
@@ -253,11 +258,13 @@ const Auth = () => {
         // Store user genre selection in the database
         await axios.post("/api/genre", {
           user_id: email, // Use a unique identifier for the user, such as email
-          genres: favoriteGenres,
+          genre: favoriteGenres,
         });
+        
+        login()
 
         // Redirect or perform any other actions after genre selection
-        router.push("/profiles");
+        // router.push("/profiles");
       } catch (error) {
         console.log(error);
       }
@@ -270,13 +277,6 @@ const Auth = () => {
     }
   }, [showGenres, favoriteGenres, variant, login, toggleGenreSelection, router]);
 
-  const handleContinue = async () => {
-    try {
-      await register();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -322,10 +322,10 @@ const Auth = () => {
               />
             </div>
             <button
-              onClick={handleSubmit}
+              onClick={variant === "login" ? login : register}
               className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
             >
-              {showGenres ? "Continue" : variant === "login" ? "Sign In" : "Sign Up"}
+              {variant === "login" ? "Sign In" : "Sign Up"}
             </button>
 
             <p className="text-neutral-500 capitalize text-sm mt-12">
@@ -343,9 +343,11 @@ const Auth = () => {
         </div>
         {showGenres && (
         <GenreSelectionCard
-          favoriteGenres={favoriteGenres}
+        favoriteGenres={favoriteGenres}
+        setFavoriteGenres={setFavoriteGenres}
           handleGenreChange={handleGenreChange}
           onContinue={handleContinue} // Update the prop name here
+          login={login}
         />
       )}
       </div>

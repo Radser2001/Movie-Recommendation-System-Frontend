@@ -6,6 +6,7 @@ import axios from "axios";
 import  submitRating  from '../pages/api/ratings';
 import { useCallback} from "react";
 import useRating from "@/hooks/useRating";
+import Swal from 'sweetalert2'
 
 interface MovieCardProps {
   data: Record<string, any>;
@@ -27,9 +28,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
-    console.log("User ID:", currentUser.currentUser.id);
-    console.log("Movie ID:", data.movie_id);
-    console.log("Rating:", newRating);
+    // console.log("User ID:", currentUser.currentUser.id);
+    // console.log("Movie ID:", data.movie_id);
+    // console.log("Rating:", newRating);
   };
 
   const openModal = () => {
@@ -64,7 +65,14 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
       await useRating(ratingData);
 
       // Handle the successful rating submission
-      console.log('Rating submitted successfully!');
+ 
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Rating Submitted Successfully !',
+   
+        }
+      )
     } catch (error) {
       console.log(error);
     }
@@ -84,12 +92,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
         <p className="text-white">{data.title}</p>
         <img
           className="cursor-pointer object-cover transition duration shadow-xl rounded-t-md w-full"
-          style={{ flex: "1", height: "300px" ,maxWidth: "200px",alignItems: "center", justifyContent: "center" , alignSelf: "center" }}
+          style={{ flex: "1", height: "500px" ,maxWidth: "200px",alignItems: "center", justifyContent: "center" , alignSelf: "center" }}
           src={`https://image.tmdb.org/t/p/w500/${movieData}`}
           alt=""
         />
-        <div className="expand-icon" onClick={openModal}>
+        <div className="expand-icon cursor-pointer" onClick={openModal}>
           <CgDetailsMore size={30} style={{color:"white"}} />
+         
         </div>
       </div>
       <Modal
@@ -143,8 +152,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
           </div>
 
           <br />
-          <button onClick={closeModal}>Close</button>
-          <button onClick={handleRatingSubmit}>Submit</button>
+          <button className="mr-4 bg-red-500 hover:bg-black text-white font-bold py-2 px-4 rounded" onClick={closeModal}>Close</button>
+          <button className="mr-1 bg-red-500 hover:bg-black text-white font-bold py-2 px-4 rounded" onClick={handleRatingSubmit}>Submit</button>
         </div>
       </Modal>
     </div>

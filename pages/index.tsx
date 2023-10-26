@@ -8,6 +8,7 @@ import InfoModal from "@/components/InfoModal";
 import useMovieList from "@/hooks/useMovieList";
 import useInforModal from "@/hooks/useInfoModalStore";
 import RecommendedMovieList from "@/components/RecommendedMovieList";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -32,27 +33,55 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [genrebasedMovies, setGenrebasedMovies] = useState([]);
+
+  const {data: currentUser } = useCurrentUser();
+
   const filteredMovies = allMovies.filter((movie) =>
     movie.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  console.log(filteredMovies)
+  // console.log(currentUser.currentUser.email)
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    console.log(query);
     console.log(searchQuery);
   };
   useEffect(() => {
     const fetchRecommendedMovies = () => {
-      fetch(`http://127.0.0.1:5000/recommended_movies/${searchQuery}`)
+      fetch(`http://127.0.0.1:5000/search_based_recommended_movies/${searchQuery}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log(data)
           setRecommendedMovies(data.recommended_movies_search);
         });
     };
     setRecommendedMovies([]);
 
     fetchRecommendedMovies();
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [searchQuery]);
+
+  useEffect(() => {
+    const fetchGenreBasedMovies = () => {
+      fetch(`http://127.0.0.1:5000/recommended_movies/${currentUser?.currentUser?.email}`)
+        .then((response) => response.json())
+        .then((data) => {
+          
+          setGenrebasedMovies(data.recommended_movies_genre);
+        });
+    };
+    setGenrebasedMovies([]);
+
+    if(currentUser != undefined){
+      fetchGenreBasedMovies();
+    }
+
+    // fetchGenreBasedMovies();
+    setIsLoading(false);
+  }, [currentUser]);
 
   return (
     <>
@@ -60,6 +89,7 @@ export default function Home() {
       <Navbar onSearch={handleSearch} />
       <div className="pb-40">
         <MovieList title="Trending Now" data={filteredMovies} />
+        <MovieList title="Your Choice" data={genrebasedMovies} />
 
         {isLoading && <p className="text-white">Loading...</p>}
         {searchQuery != "" && recommendedMovies.length != 0 && (
